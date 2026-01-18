@@ -84,23 +84,22 @@
   </div>
 
   <script>
-    let shipX = 150;
+    let shipX = 0;
     let stars = 0;
     const sea = document.getElementById('sea');
     const ship = document.getElementById('ship');
     const message = document.getElementById('message');
 
-    function move(step) {
-      shipX = Math.max(0, Math.min(300, shipX + step));
+    function updateShip() {
       ship.style.left = shipX + 'px';
-      checkStar();
     }
 
     function spawnStar() {
+      if (stars >= 5) return;
       const star = document.createElement('div');
       star.className = 'star';
       star.innerText = '⭐';
-      star.style.left = Math.floor(Math.random() * 320) + 'px';
+      star.style.left = Math.floor(Math.random() * (sea.clientWidth - 40)) + 'px';
       sea.appendChild(star);
 
       setTimeout(() => {
@@ -112,17 +111,43 @@
       const star = document.querySelector('.star');
       if (!star) return;
       const starX = star.offsetLeft;
-      if (Math.abs(starX - shipX) < 30) {
+      if (Math.abs(starX - shipX) < 40) {
         stars++;
         sea.removeChild(star);
-        message.innerText = `Звёзды собраны: ${stars} ✨`;
-        if (stars === 5) {
-          message.innerText = '🎉 Поздравляем! Пусть путь всегда будет счастливым!';
+        if (navigator.vibrate) navigator.vibrate(50);
+        if (stars < 5) {
+          message.innerText = `Звёзды собраны: ${stars} ✨`;
+        } else {
+          finishGame();
         }
       }
     }
 
-    setInterval(spawnStar, 1500);
+    function finishGame() {
+      sea.innerHTML = '<div style="font-size:36px;margin-top:70px;">🎉⚓✨</div>';
+      message.innerHTML = 'С днём рождения!<br>Пусть путь всегда будет лёгким и счастливым 💙';
+    }
+
+    let startX = null;
+
+    sea.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+    });
+
+    sea.addEventListener('touchmove', e => {
+      if (startX === null) return;
+      const diff = e.touches[0].clientX - startX;
+      shipX += diff * 0.2;
+      shipX = Math.max(0, Math.min(sea.clientWidth - 50, shipX));
+      updateShip();
+      checkStar();
+      startX = e.touches[0].clientX;
+    });
+
+    shipX = sea.clientWidth / 2;
+    updateShip();
+
+    setInterval(spawnStar, 1400);
   </script>
 </body>
 </html>
