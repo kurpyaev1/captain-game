@@ -44,7 +44,7 @@
     .sea {
       flex: 1;
       width: 100%;
-      min-height: 55vh;
+      min-height: 42vh;
       background: linear-gradient(#3fa9f5, #1c78d6);
       border-radius: 20px;
       position: relative;
@@ -54,7 +54,7 @@
 
     .ship {
       position: absolute;
-      bottom: 32px;
+      bottom: 60px;
       left: 50%;
       transform: translateX(-50%);
       font-size: 72px;
@@ -62,7 +62,7 @@
 
     .star {
       position: absolute;
-      top: 24px;
+      top: 80px;
       font-size: 56px;
     }
 
@@ -138,15 +138,16 @@
       }, 2600);
     }
 
-  function checkStar() {
-    const star = document.querySelector('.star');
-    if (!star) return;
-  
+function checkStar() {
+  const starsOnScreen = document.querySelectorAll('.star');
+
+  starsOnScreen.forEach(star => {
     const starX = parseFloat(star.style.left);
+
     if (Math.abs(starX - shipX) < 8) {
       stars++;
       sea.removeChild(star);
-  
+
       if (stars === 5 && !congratulated) {
         message.innerHTML =
           '✨ С днём рождения!<br>Пусть путь будет лёгким и счастливым 💙';
@@ -155,7 +156,9 @@
         message.innerText = `Звёзды: ${stars} ✨`;
       }
     }
-  }
+  });
+}
+
 
 
     setInterval(spawnStar, 1600);
