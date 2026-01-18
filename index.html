@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Путешествие капитана</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      font-family: Arial, sans-serif;
+    }
+    .game {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 360px;
+    }
+    h1 { margin-top: 0; }
+    .sea {
+      position: relative;
+      height: 180px;
+      background: linear-gradient(#4facfe, #00f2fe);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 15px 0;
+    }
+    .ship {
+      position: absolute;
+      bottom: 20px;
+      left: 150px;
+      font-size: 32px;
+      transition: left 0.2s;
+    }
+    .star {
+      position: absolute;
+      top: 20px;
+      font-size: 22px;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      background: #66a6ff;
+      color: white;
+      font-size: 14px;
+    }
+    .message { margin-top: 10px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <h1>⚓ Путешествие капитана</h1>
+    <p>Поймай как можно больше звёзд и проведи корабль по маршруту</p>
+
+    <div class="sea" id="sea">
+      <div class="ship" id="ship">🚢</div>
+    </div>
+
+    <div>
+      <button onclick="move(-40)">⬅️ Влево</button>
+      <button onclick="move(40)">➡️ Вправо</button>
+    </div>
+
+    <div class="message" id="message">Звёзды собраны: 0 ✨</div>
+  </div>
+
+  <script>
+    let shipX = 150;
+    let stars = 0;
+    const sea = document.getElementById('sea');
+    const ship = document.getElementById('ship');
+    const message = document.getElementById('message');
+
+    function move(step) {
+      shipX = Math.max(0, Math.min(300, shipX + step));
+      ship.style.left = shipX + 'px';
+      checkStar();
+    }
+
+    function spawnStar() {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.innerText = '⭐';
+      star.style.left = Math.floor(Math.random() * 320) + 'px';
+      sea.appendChild(star);
+
+      setTimeout(() => {
+        if (sea.contains(star)) sea.removeChild(star);
+      }, 3000);
+    }
+
+    function checkStar() {
+      const star = document.querySelector('.star');
+      if (!star) return;
+      const starX = star.offsetLeft;
+      if (Math.abs(starX - shipX) < 30) {
+        stars++;
+        sea.removeChild(star);
+        message.innerText = `Звёзды собраны: ${stars} ✨`;
+        if (stars === 5) {
+          message.innerText = '🎉 Поздравляем! Пусть путь всегда будет счастливым!';
+        }
+      }
+    }
+
+    setInterval(spawnStar, 1500);
+  </script>
+</body>
+</html>
