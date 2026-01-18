@@ -117,7 +117,6 @@
     }
 
     function spawnStar() {
-      if (stars >= 5) return;
       const star = document.createElement('div');
       star.className = 'star';
       star.innerText = '⭐';
@@ -127,6 +126,7 @@
       setTimeout(() => {
         if (sea.contains(star)) sea.removeChild(star);
       }, 2500);
+    }, 2500);
     }
 
     function checkStar() {
@@ -146,7 +146,6 @@
 
     function finish() {
       message.innerHTML = '✨ Отличный маршрут!<br>Можно продолжать путешествие 💙';
-      // не останавливаем игру, просто поздравляем
     }
 
     setInterval(spawnStar, 1600);
