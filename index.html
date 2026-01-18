@@ -2,54 +2,56 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Путешествие капитана</title>
+
   <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
       margin: 0;
       height: 100vh;
-      background: linear-gradient(180deg, #7fd9ff, #5fb2ff);
       font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background: linear-gradient(180deg, #7fd9ff, #5fb2ff);
     }
 
     .game {
       width: 100vw;
       height: 100vh;
-      background: #eaf7ff;
+      padding: 16px 12px 24px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: space-between;
-      padding: 20px 12px 30px;
-      box-sizing: border-box;
+      align-items: center;
     }
 
     h1 {
       font-size: 28px;
-      margin: 10px 0 5px;
+      margin: 8px 0 4px;
     }
 
     p {
       font-size: 18px;
-      margin: 0 0 10px;
+      margin: 0;
     }
 
     .sea {
       flex: 1;
       width: 100%;
+      margin: 12px 0;
       background: linear-gradient(#3fa9f5, #1c78d6);
       border-radius: 20px;
       position: relative;
       overflow: hidden;
-      margin: 10px 0;
     }
 
     .ship {
       position: absolute;
-      bottom: 30px;
+      bottom: 32px;
       left: 50%;
       transform: translateX(-50%);
       font-size: 72px;
@@ -57,35 +59,35 @@
 
     .star {
       position: absolute;
-      top: 30px;
+      top: 24px;
       font-size: 56px;
-    }
-
-    .message {
-      font-size: 22px;
-      margin-top: 10px;
     }
 
     .controls {
       display: flex;
-      gap: 20px;
-      margin-top: 10px;
+      gap: 24px;
+      margin-top: 8px;
     }
 
     button {
-      font-size: 28px;
-      padding: 26px 40px;
+      font-size: 30px;
+      padding: 28px 44px;
       border: none;
       border-radius: 999px;
       background: #ffffff;
       box-shadow: 0 8px 20px rgba(0,0,0,0.25);
       cursor: pointer;
       touch-action: manipulation;
-      -webkit-tap-highlight-color: transparent;
       user-select: none;
+    }
+
+    .message {
+      font-size: 22px;
+      margin-top: 8px;
     }
   </style>
 </head>
+
 <body>
   <div class="game">
     <div>
@@ -108,12 +110,13 @@
   <script>
     let shipX = 50;
     let stars = 0;
+
     const sea = document.getElementById('sea');
     const ship = document.getElementById('ship');
     const message = document.getElementById('message');
 
     function move(dir) {
-      shipX += dir * 10;
+      shipX += dir * 8;
       shipX = Math.max(5, Math.min(95, shipX));
       ship.style.left = shipX + '%';
       checkStar();
@@ -123,33 +126,24 @@
       const star = document.createElement('div');
       star.className = 'star';
       star.innerText = '⭐';
-      star.style.left = Math.random() * 80 + 10 + '%';
+      star.style.left = (Math.random() * 80 + 10) + '%';
       sea.appendChild(star);
 
       setTimeout(() => {
         if (sea.contains(star)) sea.removeChild(star);
-      }, 2500);
-    }, 2500);
+      }, 2600);
     }
 
     function checkStar() {
       const star = document.querySelector('.star');
       if (!star) return;
+
       const starX = parseFloat(star.style.left);
       if (Math.abs(starX - shipX) < 8) {
         stars++;
         sea.removeChild(star);
-        if (stars < 5) {
-          message.innerText = `Звёзды: ${stars} ✨`;
-        } else {
-          finish();
-        }
+        message.innerText = `Звёзды: ${stars} ✨`;
       }
-    }
-
-    function finish() {
-      message.innerHTML = '✨ Отличный маршрут!<br>Можно продолжать путешествие 💙';
-      // не останавливаем игру, просто поздравляем
     }
 
     setInterval(spawnStar, 1600);
