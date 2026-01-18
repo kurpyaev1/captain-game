@@ -73,13 +73,16 @@
     }
 
     button {
-      font-size: 22px;
-      padding: 16px 28px;
+      font-size: 28px;
+      padding: 26px 40px;
       border: none;
       border-radius: 999px;
       background: #ffffff;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
       cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
   </style>
 </head>
@@ -146,6 +149,7 @@
 
     function finish() {
       message.innerHTML = '✨ Отличный маршрут!<br>Можно продолжать путешествие 💙';
+      // не останавливаем игру, просто поздравляем
     }
 
     setInterval(spawnStar, 1600);
