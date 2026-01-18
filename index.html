@@ -135,17 +135,25 @@
       }, 2600);
     }
 
-    function checkStar() {
-      const star = document.querySelector('.star');
-      if (!star) return;
-
-      const starX = parseFloat(star.style.left);
-      if (Math.abs(starX - shipX) < 8) {
-        stars++;
-        sea.removeChild(star);
+  function checkStar() {
+    const star = document.querySelector('.star');
+    if (!star) return;
+  
+    const starX = parseFloat(star.style.left);
+    if (Math.abs(starX - shipX) < 8) {
+      stars++;
+      sea.removeChild(star);
+  
+      if (stars === 5 && !congratulated) {
+        message.innerHTML =
+          '✨ С днём рождения!<br>Пусть путь будет лёгким и счастливым 💙';
+        congratulated = true;
+      } else {
         message.innerText = `Звёзды: ${stars} ✨`;
       }
     }
+  }
+
 
     setInterval(spawnStar, 1600);
   </script>
