@@ -14,21 +14,23 @@
 
     body {
       margin: 0;
-      height: 100vh;
       font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
       background: linear-gradient(180deg, #7fd9ff, #5fb2ff);
     }
 
     .game {
       width: 100vw;
-      height: 100vh;
+      min-height: 100vh;
       padding: 16px 12px 24px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       align-items: center;
     }
 
+    .game {
+      gap: 12px;
+    }
+    
     h1 {
       font-size: 28px;
       margin: 8px 0 4px;
