@@ -2,8 +2,10 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
   <title>Путешествие капитана</title>
 
   <style>
@@ -21,40 +23,38 @@
     .game {
       width: 100vw;
       min-height: 100vh;
-      padding: 16px 12px 24px;
+      padding: 12px 12px calc(16px + env(safe-area-inset-bottom));
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 8px;
     }
 
-    .game {
-      gap: 12px;
-    }
-    
     h1 {
-      font-size: 28px;
-      margin: 8px 0 4px;
+      font-size: 26px;
+      margin: 6px 0 2px;
+      text-align: center;
     }
 
     p {
-      font-size: 18px;
+      font-size: 17px;
       margin: 0;
+      text-align: center;
     }
 
     .sea {
       flex: 1;
       width: 100%;
-      min-height: 42vh;
+      max-height: 45vh;
       background: linear-gradient(#3fa9f5, #1c78d6);
       border-radius: 20px;
       position: relative;
       overflow: hidden;
     }
 
-
     .ship {
       position: absolute;
-      bottom: 60px;
+      bottom: 48px;
       left: 50%;
       transform: translateX(-50%);
       font-size: 72px;
@@ -62,31 +62,31 @@
 
     .star {
       position: absolute;
-      top: 80px;
+      top: 72px;
       font-size: 56px;
     }
 
     .controls {
       display: flex;
-      gap: 24px;
-      margin-top: 8px;
+      gap: 20px;
     }
 
     button {
-      font-size: 30px;
-      padding: 28px 44px;
+      font-size: 28px;
+      padding: 22px 38px;
       border: none;
       border-radius: 999px;
       background: #ffffff;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
       cursor: pointer;
       touch-action: manipulation;
       user-select: none;
     }
 
     .message {
-      font-size: 22px;
-      margin-top: 8px;
+      font-size: 20px;
+      margin-top: 4px;
+      text-align: center;
     }
   </style>
 </head>
@@ -115,22 +115,22 @@
     let stars = 0;
     let congratulated = false;
 
-    const sea = document.getElementById('sea');
-    const ship = document.getElementById('ship');
-    const message = document.getElementById('message');
+    const sea = document.getElementById("sea");
+    const ship = document.getElementById("ship");
+    const message = document.getElementById("message");
 
     function move(dir) {
       shipX += dir * 8;
       shipX = Math.max(5, Math.min(95, shipX));
-      ship.style.left = shipX + '%';
+      ship.style.left = shipX + "%";
       checkStar();
     }
 
     function spawnStar() {
-      const star = document.createElement('div');
-      star.className = 'star';
-      star.innerText = '⭐';
-      star.style.left = (Math.random() * 80 + 10) + '%';
+      const star = document.createElement("div");
+      star.className = "star";
+      star.innerText = "⭐";
+      star.style.left = Math.random() * 80 + 10 + "%";
       sea.appendChild(star);
 
       setTimeout(() => {
@@ -138,28 +138,26 @@
       }, 2600);
     }
 
-function checkStar() {
-  const starsOnScreen = document.querySelectorAll('.star');
+    function checkStar() {
+      const starsOnScreen = document.querySelectorAll(".star");
 
-  starsOnScreen.forEach(star => {
-    const starX = parseFloat(star.style.left);
+      starsOnScreen.forEach((star) => {
+        const starX = parseFloat(star.style.left);
 
-    if (Math.abs(starX - shipX) < 8) {
-      stars++;
-      sea.removeChild(star);
+        if (Math.abs(starX - shipX) < 8) {
+          stars++;
+          sea.removeChild(star);
 
-      if (stars === 5 && !congratulated) {
-        message.innerHTML =
-          '✨ С днём рождения!<br>Пусть путь будет лёгким и счастливым 💙';
-        congratulated = true;
-      } else {
-        message.innerText = `Звёзды: ${stars} ✨`;
-      }
+          if (stars === 5 && !congratulated) {
+            message.innerHTML =
+              "✨ С днём рождения!<br>Пусть путь будет лёгким и счастливым 💙";
+            congratulated = true;
+          } else {
+            message.innerText = `Звёзды: ${stars} ✨`;
+          }
+        }
+      });
     }
-  });
-}
-
-
 
     setInterval(spawnStar, 1600);
   </script>
